@@ -1,11 +1,13 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="container mt-4">
+    <h1 class="text-center">Carrito con Vuex</h1>
+    <ProductoLista/>
+    <Carrito/>
+  </div>
 </template>
 
-<style scoped></style>
+<script>
+import ProductoLista from '../components/ProductoLista.vue'
+import Carrito from '../components/Carrito.vue'
+export default { components:{ProductoLista,Carrito} }
+</script>
