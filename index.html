@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Carrito de Compras con Vue y Bootstrap</title>
+  <title>Examen 3</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -14,7 +14,8 @@
       <div class="col-md-6 mb-4">
         <h3>Productos</h3>
         <div class="list-group">
-          <div class="list-group-item d-flex align-items-center justify-content-between" v-for="producto in productos" :key="producto.id">
+          <div class="list-group-item d-flex align-items-center justify-content-between" 
+               v-for="producto in productos" :key="producto.id">
             <div class="d-flex align-items-center">
               <img :src="producto.imagen" alt="" style="width:50px; height:auto; margin-right:10px;">
               <div>
@@ -29,11 +30,13 @@
           </div>
         </div>
       </div>
-      <!-- Carrito de compras -->
+
+      <!-- Carrito -->
       <div class="col-md-6 mb-4">
         <h3>Mi Carrito</h3>
         <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between align-items-center" v-for="item in carrito" :key="item.id">
+          <li class="list-group-item d-flex justify-content-between align-items-center" 
+              v-for="item in carrito" :key="item.id">
             <div class="d-flex align-items-center">
               <img :src="item.imagen" alt="" style="width:50px; height:auto; margin-right:10px;">
               <div>
@@ -51,8 +54,9 @@
     </div>
   </div>
 
-  <!-- Vue.js -->
+  <!-- Vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+
   <script>
     const { createApp } = Vue;
 
@@ -60,36 +64,50 @@
       data() {
         return {
           productos: [
-            { id: 1, nombre: 'Audífono', precio: 30000, stock: 3, imagen: 'https://via.placeholder.com/50' },
-            { id: 2, nombre: 'Mouse', precio: 20000, stock: 5, imagen: 'https://via.placeholder.com/50' },
-            { id: 3, nombre: 'Teclado', precio: 15000, stock: 10, imagen: 'https://via.placeholder.com/50' },
-            { id: 4, nombre: 'Gabinete', precio: 35000, stock: 4, imagen: 'https://via.placeholder.com/50' },
-            { id: 5, nombre: 'Pantalla', precio: 175000, stock: 3, imagen: 'https://via.placeholder.com/50' },
-            { id: 6, nombre: 'Silla', precio: 150000, stock: 2, imagen: 'https://via.placeholder.com/50' },
+            { id: 1, nombre: 'Audífono', precio: 30000, stock: 3, imagen: '/src/assets/img/audifono.png' },
+            { id: 2, nombre: 'Mouse', precio: 20000, stock: 5, imagen: '/src/assets/img/mouse.png' },
+            { id: 3, nombre: 'Teclado', precio: 15000, stock: 10, imagen: '/src/assets/img/teclado.png' },
+            { id: 4, nombre: 'Gabinete', precio: 35000, stock: 4, imagen: '/src/assets/img/gabinete.png' },
+            { id: 5, nombre: 'Pantalla', precio: 175000, stock: 3, imagen: '/src/assets/img/monitor.png' },
+            { id: 6, nombre: 'Silla', precio: 150000, stock: 2, imagen: '/src/assets/img/silla.png' },
           ],
           carrito: [],
           total: 0
         };
       },
+
       methods: {
         agregarAlCarrito(producto) {
-          // Verificar stock
           const itemEnCarrito = this.carrito.find(i => i.id === producto.id);
+
           if (itemEnCarrito) {
             if (itemEnCarrito.cantidad < producto.stock) {
               itemEnCarrito.cantidad++;
               this.actualizarTotal();
             } else {
-              alert('No hay más unidades disponibles de este producto.');
+              alert("No hay más unidades disponibles.");
             }
           } else {
             if (producto.stock > 0) {
               this.carrito.push({ ...producto, cantidad: 1 });
               this.actualizarTotal();
             } else {
-              alert('Producto agotado.');
+              alert("Producto agotado.");
             }
           }
         },
+
         removerDelCarrito(item) {
-          this.carrito
+          this.carrito = this.carrito.filter(i => i.id !== item.id);
+          this.actualizarTotal();
+        },
+
+        actualizarTotal() {
+          this.total = this.carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+        }
+      }
+    }).mount("#app");
+  </script>
+
+</body>
+</html>
